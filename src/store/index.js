@@ -5,6 +5,9 @@ class Todo {
   @action addCity (city) {
     this.selectedCitys.push(city)
   }
+  @action removeCity(city) {
+    this.selectedCitys = this.selectedCitys.filter(item => item.code !== city.code)
+  }
   @computed
   get cityCodes () {
     return this.selectedCitys.map(item => item.code)

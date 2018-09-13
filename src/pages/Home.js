@@ -4,24 +4,35 @@
  */
 
 import React, {Component} from 'react';
-import {StyleSheet, TouchableOpacity, StatusBar} from 'react-native';
+import {StyleSheet, TouchableOpacity, StatusBar, View} from 'react-native';
 import {observer, inject} from 'mobx-react'
 import {createStackNavigator} from 'react-navigation'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { Container, Content, Card, CardItem, Text, Body } from "native-base";
+// import Icon from 'react-native-vector-icons/FontAwesome'
+import { Container, Content, Text, Button } from "native-base";
 import WeatherCard from './WeatherCard'
 import SelectCity from './SelectCity'
-@inject("uiStore")
+import {Icon} from 'native-base'
+
+@inject("uiStore", 'store')
 @observer
 class RightBtn extends Component {
   _onPress = () => {
     this.props.uiStore.modal = !this.props.uiStore.modal
   }
+  _refresh = () => {
+    const {store} = this.props
+    store.selectedCitys = [...store.selectedCitys]
+  }
   render () {
     return (
-      <TouchableOpacity style={{marginRight: 14}} onPress={this._onPress}>
-        <Icon name="plus" size={26} color={'#fff'}/>
-      </TouchableOpacity>
+      <View style={{marginRight: 14, flexDirection: 'row', alignItems: 'center'}}>
+        <Button transparent onPress={this._refresh}>
+          <Icon name='refresh' size={30} style={{color: '#fff'}}/>
+        </Button>
+        <TouchableOpacity style={{marginRight: 0}} onPress={this._onPress}>
+          <Icon name="add" size={30} style={{color: '#fff'}}/>
+        </TouchableOpacity>
+      </View>
     )
   }
 }
@@ -46,15 +57,18 @@ class Home extends Component {
     const {themeColor, textColor} = this.props.uiStore
     this.props.navigation.setParams({textColor, themeColor})
   }
-  _onPress = () => {
-  }
   render() {
-    console.log(this.props.uiStore.modal)
+    const {store} = this.props
+    console.log(store.selectedCitys)
     return (
       <Container>
         <StatusBar barStyle="light-content"/>
-        <WeatherCard />
-        {this.props.uiStore.modal && <SelectCity />}
+        <Content padder>
+          {
+            store.selectedCitys.map(item => <WeatherCard city={item} key={item.code}/>)
+          }
+          <SelectCity />
+        </Content>
       </Container>
     );
   }

@@ -11,7 +11,7 @@ export default class SelectCity extends Component {
   }
   _selectedCity = (item) => {
     const {store} = this.props
-    store.addCity(item)
+    store.cityCodes.includes(item.code) ? store.removeCity(item) : store.addCity(item)
     this._onPress()
   }
   render() {

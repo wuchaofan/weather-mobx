@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { Container, Content, Card, CardItem, Text, Body, Spinner, List, ListItem, Icon, Left, Right, Badge } from "native-base";
+import { Container, Content, Card, CardItem, Text, Body, Spinner, List, ListItem, Icon, Left, Right, Button } from "native-base";
 import { observer, inject } from "mobx-react";
-import {View} from 'react-native'
+import {View, TouchableOpacity} from 'react-native'
+// import IconFont from 'react-native-vector-icons/FontAwesome'
+import {withNavigation} from 'react-navigation'
 @inject('store', 'uiStore')
 @observer
-export default class WeatherCard extends Component {
+class WeatherCard extends Component {
   state = {
     weatherinfo: null
   }
@@ -24,6 +26,11 @@ export default class WeatherCard extends Component {
       // console.log(weatherinfo)
       this.setState({weatherinfo})
     })
+  }
+  intoDetail = () => {
+    const {store, city, navigation} = this.props
+    console.log(navigation)
+    navigation.push('Detail', {name: city.name, code: city.code})
   }
   render () {
     const {uiStore, city} = this.props
@@ -80,6 +87,7 @@ export default class WeatherCard extends Component {
             </Body>
             {weatherinfo && (<Right>
               <Text>{weatherinfo.time}</Text>
+              {/* <IconFont name="angle-right" size={26}/> */}
             </Right>)}
 
           </CardItem>
@@ -88,7 +96,14 @@ export default class WeatherCard extends Component {
               {BodyContent}
             </Body>
           </CardItem>
+          <CardItem footer style={{width: '100%'}}>
+            <TouchableOpacity onPress={this.intoDetail} style={{width: '100%'}}>
+              <View style={{width: '100%'}}><Text style={{color: uiStore.themeColor, fontSize: 12}}>更多</Text></View>
+            </TouchableOpacity>
+          </CardItem>
         </Card>
     )
   }
 }
+
+export default withNavigation(WeatherCard)

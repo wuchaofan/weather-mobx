@@ -12,6 +12,9 @@ import { Container, Content, Text, Button } from "native-base";
 import WeatherCard from './WeatherCard'
 import SelectCity from './SelectCity'
 import {Icon} from 'native-base'
+import Detail from './Detail'
+import Loading from './Loading'
+
 
 @inject("uiStore", 'store')
 @observer
@@ -40,10 +43,13 @@ class RightBtn extends Component {
 @inject("store", 'uiStore')
 @observer
 class Home extends Component {
-  state = {
-    count: 6
+  constructor (props) {
+    super(props)
+    this.state = {
+    }
   }
   static navigationOptions = ({navigation}) => {
+    console.log({navigation})
     return {
       title: '天气',
       headerRight: <RightBtn/>,
@@ -77,7 +83,8 @@ class Home extends Component {
 export default createStackNavigator({
   Home: {
     screen: Home
-  }
+  },
+  Detail: Detail
 })
 const styles = StyleSheet.create({
   container: {

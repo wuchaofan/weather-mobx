@@ -1,6 +1,8 @@
-import {observable, computed, action} from 'mobx'
+import {observable, computed, action, runInAction} from 'mobx'
 
 class Todo {
+  @observable ajaxStatus = 'init' // "pending" / "done" / "error"
+
   @observable selectedCitys = [{code: '101020100', name: '上海'},]
   @action addCity (city) {
     this.selectedCitys.push(city)
@@ -11,6 +13,30 @@ class Todo {
   @computed
   get cityCodes () {
     return this.selectedCitys.map(item => item.code)
+  }
+
+  @observable detailCity = []
+  @action getWeatherList = (name) => {
+    const api = `https://www.sojson.com/open/api/weather/json.shtml?city=${encodeURIComponent(name)}`
+    this.detailCity = []
+    this.ajaxStatus = "pending"
+    fetch(api).then(res => res.json()).then(({status, data}) => {
+      console.log()
+      if (status === 200) {
+        runInAction(() => {
+            this.detailCity = data.forecast
+            this.ajaxStatus = 'done'
+        })
+      } else {
+        runInAction(() => {
+            this.ajaxStatus = 'error'
+        })
+      }
+    }, _ => {
+      runInAction(() => {
+        this.ajaxStatus = 'error'
+      })
+    })
   }
 }
 

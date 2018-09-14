@@ -65,7 +65,7 @@ class Home extends Component {
   }
   render() {
     const {store} = this.props
-    console.log(store.selectedCitys)
+    // console.log(store.selectedCitys)
     return (
       <Container>
         <StatusBar barStyle="light-content"/>

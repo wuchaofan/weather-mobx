@@ -57,10 +57,9 @@ class DetailWeatherCard extends Component {
       <Card>
         <CardItem header bordered>
           <Left>
-            <Text style={{color: uiStore.themeColor, marginRight: 10}}>{navigation.state.params.name}</Text>
+            <Text style={{color: uiStore.themeColor, marginRight: 10}}>{weatherinfo.type}</Text>
           </Left>
           <Body>
-            <Text>{weatherinfo.type}</Text>
           </Body>
           <Right>
             <Text>{weatherinfo.date}</Text>

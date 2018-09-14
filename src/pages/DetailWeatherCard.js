@@ -47,17 +47,6 @@ class DetailWeatherCard extends Component {
               <Text>{weatherinfo.fl}</Text>
             </Right>
           </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name="cloudy-night" style={{color: uiStore.themeColor}}/>
-            </Left>
-            <Body>
-              <Text>风力</Text>
-            </Body>
-            <Right>
-              <Text>{weatherinfo.fl}</Text>
-            </Right>
-          </ListItem>
           <ListItem>
             <Text style={{fontSize: 13, color: 'red'}}>{weatherinfo.notice}</Text>
           </ListItem>
